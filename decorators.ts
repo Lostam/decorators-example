@@ -23,16 +23,17 @@ export function CacheGetters<T extends Constructor>(ctr: T) {
   };
 }
 
-export function ValidateStringShorterThen15 (target: any, memberName: string) {
+export function ValidateIsLettersOnly (target: any, memberName: string) {
     let val: any = target[memberName];
     Object.defineProperty(target, memberName, {
         set: (newValue) => {
-            if (newValue.length > 15) {
-                throw new Error(`${memberName} must be lower then 15 letters`);
+            if (!/^[a-zA-Z]+$/.test(newValue)) {
+                throw new Error(`${memberName} must include letters only`);
             }
             val = newValue;
         },
-        get: () => val
+        get: () => val,
+        configurable : true
     });
 }
 
